@@ -1,302 +1,119 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const authCard = document.getElementById('authCard');
-  const loginPanel = document.getElementById('loginPanel');
-  const registerPanel = document.getElementById('registerPanel');
-  const mobileTabs = document.querySelectorAll('.mobile-tab');
-  const tabIndicator = document.getElementById('tabIndicator');
-  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
-  const forgotModal = document.getElementById('forgotModal');
-  const forgotClose = document.getElementById('forgotClose');
-  const toast = document.getElementById('toast');
+document.addEventListener('DOMContentLoaded', function () {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const primaryNav = document.getElementById('primary-menu');
+  const searchToggle = document.querySelector('.search-toggle');
+  const searchModal = document.getElementById('search-modal');
+  const modalCloseBtn = searchModal.querySelector('.modal-close');
+  const searchInput = searchModal.querySelector('#search-input');
+  const resetButton = searchModal.querySelector('.reset-button');
 
-  // Switch between login and register panels
-  function switchPanel(target) {
-    if (window.innerWidth >= 720) {
-      // Desktop: toggle class on authCard
-      if (target === 'register') {
-        authCard.classList.add('register-active');
-        loginPanel.setAttribute('aria-hidden', 'true');
-        registerPanel.setAttribute('aria-hidden', 'false');
-      } else {
-        authCard.classList.remove('register-active');
-        loginPanel.setAttribute('aria-hidden', 'false');
-        registerPanel.setAttribute('aria-hidden', 'true');
-      }
+  // Toggle mobile menu
+  menuToggle.addEventListener('click', () => {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', !expanded);
+    if (!expanded) {
+      primaryNav.style.display = 'flex';
+      primaryNav.focus();
     } else {
-      // Mobile: toggle visible panel and tabs
-      mobileTabs.forEach(tab => {
-        const isActive = tab.dataset.switch === target;
-        tab.classList.toggle('is-active', isActive);
-        tab.setAttribute('aria-selected', isActive.toString());
-      });
-      if (target === 'register') {
-        loginPanel.setAttribute('aria-hidden', 'true');
-        registerPanel.setAttribute('aria-hidden', 'false');
-        tabIndicator.style.transform = 'translateX(100%)';
-      } else {
-        loginPanel.setAttribute('aria-hidden', 'false');
-        registerPanel.setAttribute('aria-hidden', 'true');
-        tabIndicator.style.transform = 'translateX(0)';
-      }
+      primaryNav.style.display = 'none';
     }
-  }
+  });
 
-  // Initialize state
-  function adaptToViewport() {
-    if (window.innerWidth >= 720) {
-      // Desktop default to login
-      switchPanel('login');
+  // Toggle search modal
+  function openSearch() {
+    searchModal.setAttribute('aria-hidden', 'false');
+    searchInput.focus();
+  }
+  function closeSearch() {
+    searchModal.setAttribute('aria-hidden', 'true');
+    searchInput.value = '';
+    resetButton.style.display = 'none';
+  }
+  searchToggle.addEventListener('click', () => {
+    const visible = searchModal.getAttribute('aria-hidden') === 'false';
+    if (visible) {
+      closeSearch();
     } else {
-      // Mobile default to login
-      switchPanel('login');
+      openSearch();
     }
-  }
-  adaptToViewport();
-
-  window.addEventListener('resize', adaptToViewport);
-
-  // Mobile tab click handlers
-  mobileTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      switchPanel(tab.dataset.switch);
-    });
   });
+  modalCloseBtn.addEventListener('click', closeSearch);
+  searchModal.querySelector('.modal-overlay').addEventListener('click', closeSearch);
 
-  // Switch buttons on form panels and overlay
-  document.querySelectorAll('[data-switch]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      switchPanel(btn.dataset.switch);
-    });
-  });
-
-  // Toggle password visibility
-  document.querySelectorAll('.toggle-password').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-target');
-      const input = document.getElementById(targetId);
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.setAttribute('aria-label', 'Hide password');
-      } else {
-        input.type = 'password';
-        btn.setAttribute('aria-label', 'Show password');
-      }
-    });
-  });
-
-  // Avatar image upload preview and remove for register form
-  const regAvatarInput = document.getElementById('reg-avatar');
-  const regAvatarPreview = document.getElementById('regAvatarPreview');
-  const regAvatarInitials = document.getElementById('regAvatarInitials');
-  const regAvatarRemoveBtn = document.getElementById('regAvatarRemove');
-
-  function updateAvatarPreview(file) {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        regAvatarPreview.style.backgroundImage = `url('${e.target.result}')`;
-        regAvatarPreview.textContent = '';
-      };
-      reader.readAsDataURL(file);
-      regAvatarRemoveBtn.style.display = 'inline-block';
+  // Show/hide reset button in search
+  searchInput.addEventListener('input', () => {
+    if (searchInput.value.trim() !== '') {
+      resetButton.style.display = 'block';
     } else {
-      regAvatarPreview.style.backgroundImage = 'none';
-      regAvatarPreview.textContent = 'FO';
-      regAvatarRemoveBtn.style.display = 'none';
+      resetButton.style.display = 'none';
     }
-  }
-
-  regAvatarInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    updateAvatarPreview(file);
   });
 
-  regAvatarRemoveBtn.addEventListener('click', () => {
-    regAvatarInput.value = '';
-    updateAvatarPreview(null);
+  resetButton.addEventListener('click', () => {
+    searchInput.value = '';
+    resetButton.style.display = 'none';
+    searchInput.focus();
   });
 
-  // Password strength meter for register password
-  const regPasswordInput = document.getElementById('reg-password');
-  const passwordStrength = document.getElementById('passwordStrength');
-  const strengthBars = passwordStrength.querySelectorAll('.strength-bars span');
-  const strengthLabel = passwordStrength.querySelector('.strength-label');
+  // Slideshow variables
+  const slideshow = document.querySelector('.slideshow');
+  const slideLink = slideshow.querySelector('.slide-link');
+  const prevBtn = slideshow.querySelector('.nav-arrow.prev');
+  const nextBtn = slideshow.querySelector('.nav-arrow.next');
+  const dotsContainer = slideshow.querySelector('.dots');
 
-  function evaluatePasswordStrength(password) {
-    let score = 0;
-    if (password.length >= 8) score++;
-    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
-    if (/\d/.test(password)) score++;
-    if (/[@$!%*?&]/.test(password)) score++;
-    return score;
-  }
+  // Since the reference had a single slide, this is basic setup for future slides
+  let currentSlideIndex = 0;
+  const slides = [
+    {
+      desktopImage: 'https://rangolistore.pk/cdn/shop/files/Rangoli_Banner_jpg.jpg?v=1774949333&width=2000',
+      mobileImage: 'https://rangolistore.pk/cdn/shop/files/Rangoli_Banner_mob_jpg.jpg?v=1774954542&width=1000',
+      href: 'https://rangolistore.pk/collections/new-arrivals-26',
+      alt: 'Rangoli Store Summer Collection Banner'
+    }
+  ];
 
-  regPasswordInput.addEventListener('input', () => {
-    const pwd = regPasswordInput.value;
-    const score = evaluatePasswordStrength(pwd);
-    strengthBars.forEach((bar, idx) => {
-      bar.classList.toggle('filled', idx < score);
+  function updateSlideshow(index) {
+    currentSlideIndex = index;
+    const slide = slides[index];
+    // Update slide image link
+    slideLink.href = slide.href;
+
+    // Update picture element images
+    const picture = slideLink.querySelector('picture');
+    const source = picture.querySelector('source');
+    const img = picture.querySelector('img');
+    source.srcset = slide.mobileImage;
+    img.src = slide.desktopImage;
+    img.alt = slide.alt;
+
+    // Update dots active state
+    dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
     });
-    const strengthTexts = ['Very weak', 'Weak', 'Medium', 'Strong', 'Very strong'];
-    strengthLabel.textContent = pwd ? `Password strength: ${strengthTexts[score]}` : 'Password strength';
-  });
-
-  // Form validation and submission (fake) for login
-  const loginForm = document.getElementById('loginForm');
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = loginForm.elements['email'];
-    const password = loginForm.elements['password'];
-    let valid = true;
-
-    // Clear errors
-    loginForm.querySelectorAll('.field-error').forEach(el => el.textContent = '');
-
-    if (!email.value || !email.checkValidity()) {
-      loginForm.querySelector('[data-error-for="login-email"]').textContent = 'Please enter a valid email.';
-      valid = false;
-    }
-
-    if (!password.value || password.value.length < 8) {
-      loginForm.querySelector('[data-error-for="login-password"]').textContent = 'Password must be at least 8 characters.';
-      valid = false;
-    }
-
-    if (valid) {
-      showToast('Successfully signed in!');
-      loginForm.reset();
-    }
-  });
-
-  // Form validation and submission (fake) for register
-  const registerForm = document.getElementById('registerForm');
-  registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const firstName = registerForm.elements['firstName'];
-    const lastName = registerForm.elements['lastName'];
-    const email = registerForm.elements['email'];
-    const password = registerForm.elements['password'];
-    const terms = registerForm.elements['terms'];
-    let valid = true;
-
-    // Clear errors
-    registerForm.querySelectorAll('.field-error').forEach(el => el.textContent = '');
-
-    if (!firstName.value.trim()) {
-      registerForm.querySelector('[data-error-for="reg-first"]').textContent = 'First name is required.';
-      valid = false;
-    }
-
-    if (!lastName.value.trim()) {
-      registerForm.querySelector('[data-error-for="reg-last"]').textContent = 'Last name is required.';
-      valid = false;
-    }
-
-    if (!email.value || !email.checkValidity()) {
-      registerForm.querySelector('[data-error-for="reg-email"]').textContent = 'Please enter a valid email.';
-      valid = false;
-    }
-
-    if (!password.value || password.value.length < 8) {
-      registerForm.querySelector('[data-error-for="reg-password"]').textContent = 'Password must be at least 8 characters.';
-      valid = false;
-    }
-
-    if (!terms.checked) {
-      terms.focus();
-      showToast('You must agree to the Terms & Privacy Policy.');
-      valid = false;
-    }
-
-    if (valid) {
-      showToast('Account created successfully!');
-      registerForm.reset();
-      regAvatarPreview.style.backgroundImage = 'none';
-      regAvatarPreview.textContent = 'FO';
-      regAvatarRemoveBtn.style.display = 'none';
-      passwordStrength.querySelectorAll('.strength-bars span').forEach(bar => bar.classList.remove('filled'));
-      strengthLabel.textContent = 'Password strength';
-    }
-  });
-
-  // Forgot password modal toggling
-  forgotPasswordBtn.addEventListener('click', () => {
-    forgotModal.hidden = false;
-    forgotModal.querySelector('[name=email]').focus();
-  });
-
-  forgotClose.addEventListener('click', () => {
-    forgotModal.hidden = true;
-    clearForgotForm();
-  });
-
-  forgotModal.addEventListener('click', (e) => {
-    if (e.target === forgotModal) {
-      forgotModal.hidden = true;
-      clearForgotForm();
-    }
-  });
-
-  // Forgot form submission (fake)
-  const forgotForm = document.getElementById('forgotForm');
-  forgotForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const email = forgotForm.elements['email'];
-    const errorEl = forgotForm.querySelector('[data-error-for="forgot-email"]');
-    errorEl.textContent = '';
-    if (!email.value || !email.checkValidity()) {
-      errorEl.textContent = 'Please enter a valid email.';
-      email.focus();
-      return;
-    }
-    showToast('Reset link sent! Please check your email.');
-    forgotModal.hidden = true;
-    forgotForm.reset();
-  });
-
-  function clearForgotForm() {
-    forgotForm.reset();
-    forgotForm.querySelector('[data-error-for="forgot-email"]').textContent = '';
   }
 
-  // Toast notification
-  function showToast(message) {
-    toast.textContent = message;
-    toast.hidden = false;
-    toast.classList.add('show');
-    clearTimeout(toast._timeout);
-    toast._timeout = setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => {
-        toast.hidden = true;
-      }, 300);
-    }, 3500);
-  }
-
-  // Theme toggle
-  const themeToggleBtn = document.querySelector('.theme-toggle');
-  const htmlElement = document.documentElement;
-
-  // Set initial theme
-  let currentTheme = localStorage.getItem('theme') || 'light';
-  htmlElement.setAttribute('data-theme', currentTheme);
-  themeToggleBtn.setAttribute('aria-pressed', currentTheme === 'dark' ? 'true' : 'false');
-  updateThemeToggleIcon(currentTheme);
-
-  themeToggleBtn.addEventListener('click', () => {
-    currentTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    htmlElement.setAttribute('data-theme', currentTheme);
-    themeToggleBtn.setAttribute('aria-pressed', currentTheme === 'dark' ? 'true' : 'false');
-    updateThemeToggleIcon(currentTheme);
-    localStorage.setItem('theme', currentTheme);
+  // Initialize dots (based on slides array)
+  dotsContainer.innerHTML = '';
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', `Slide ${i + 1}`);
+    dot.className = i === 0 ? 'dot active' : 'dot';
+    dot.addEventListener('click', () => updateSlideshow(i));
+    dotsContainer.appendChild(dot);
   });
 
-  function updateThemeToggleIcon(theme) {
-    if (theme === 'dark') {
-      themeToggleBtn.title = 'Switch to light theme';
-    } else {
-      themeToggleBtn.title = 'Switch to dark theme';
-    }
-  }
+  prevBtn.addEventListener('click', () => {
+    let idx = currentSlideIndex - 1;
+    if (idx < 0) idx = slides.length - 1;
+    updateSlideshow(idx);
+  });
+  nextBtn.addEventListener('click', () => {
+    let idx = currentSlideIndex + 1;
+    if (idx >= slides.length) idx = 0;
+    updateSlideshow(idx);
+  });
 
+  // Initial update
+  updateSlideshow(0);
 });
