@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowOpz 12 Sign In / Register</title>
+  <meta name="description" content="Sign in or create your FlowOpz account 12 custom GoHighLevel solutions for agencies.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button type="button" class="theme-toggle theme-toggle--floating" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme">
+    <svg class="theme-toggle-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2"></circle>
+      <path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"></path>
+    </svg>
+    <svg class="theme-toggle-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.7 6.7 0 0 0 9.7 9.7z"></path>
+    </svg>
+  </button>
+
+  <div aria-hidden="true" class="bg-grid"></div>
+  <div aria-hidden="true" class="bg-orb bg-orb--blue"></div>
+  <div aria-hidden="true" class="bg-orb bg-orb--gold"></div>
+
+  <main class="auth-shell">
+
+    <!-- Mobile brand header -->
+    <header class="mobile-brand">
+      <img src="https://flowopz-attendance.netlify.app/assets/flowopz-logo-clean.png?v=4" alt="FlowOpz" class="logo logo--mobile" width="178" height="48" decoding="async">
+    </header>
+
+    <div class="auth-card" id="authCard">
+
+      <!-- Forms container -->
+      <div class="forms-side">
+
+        <!-- Login form panel -->
+        <section class="form-panel form-panel--login" id="loginPanel" aria-labelledby="login-title">
+          <div class="form-inner">
+            <div class="form-header">
+              <div class="brand-mark">
+                <img src="https://flowopz-attendance.netlify.app/assets/flowopz-logo-clean.png?v=4" alt="FlowOpz" class="logo logo--form" width="168" height="45" decoding="async">
+              </div>
+              <h1 id="login-title" class="form-title">Welcome back</h1>
+              <p class="form-subtitle">Sign in to continue to your FlowOpz workspace</p>
+            </div>
+            <form class="auth-form" id="loginForm" novalidate>
+              <div class="field">
+                <label for="login-email">Email address</label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"></path>
+                    <path d="m3.5 7 8.5 6 8.5-6"></path>
+                  </svg>
+                  <input type="email" id="login-email" name="email" autocomplete="email" placeholder="you@agency.com" required>
+                </div>
+                <span class="field-error" data-error-for="login-email"></span>
+              </div>
+              <div class="field">
+                <div class="label-row">
+                  <label for="login-password">Password</label>
+                  <button type="button" class="link-muted" id="forgotPasswordBtn">Forgot password?</button>
+                </div>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+                  </svg>
+                  <input type="password" id="login-password" name="password" autocomplete="current-password" placeholder="Enter your password" required minlength="8">
+                  <button type="button" class="toggle-password" data-target="login-password" aria-label="Show password">
+                    <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.2 4.2M9.9 5.1A10.5 10.5 0 0 1 12 5c6.5 0 10 7 10 7a18.5 18.5 0 0 1-3.1 3.9M6.1 6.1A18.4 18.4 0 0 0 2 12s3.5 7 10 7c1.3 0 2.5-.2 3.6-.6"></path></svg>
+                  </button>
+                </div>
+                <span class="field-error" data-error-for="login-password"></span>
+              </div>
+              <button type="submit" class="btn btn--primary">
+                <span>Sign in</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </button>
+            </form>
+
+            <div class="divider"><span>or continue with</span></div>
+
+            <div class="social-row">
+              <button type="button" class="btn btn--social" aria-label="Continue with Google">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path></svg>
+                Google
+              </button>
+              <button type="button" class="btn btn--social" aria-label="Continue with Microsoft">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M1 1h10v10H1z"></path><path fill="#00A4EF" d="M13 1h10v10H13z"></path><path fill="#7FBA00" d="M1 13h10v10H1z"></path><path fill="#FFB900" d="M13 13h10v10H13z"></path></svg>
+                Microsoft
+              </button>
+            </div>
+
+            <p class="switch-hint">
+              Dont have an account?
+              <button type="button" class="link-accent" data-switch="register">Create one</button>
+            </p>
+          </div>
+        </section>
+
+        <!-- Register form panel -->
+        <section class="form-panel form-panel--register" id="registerPanel" aria-labelledby="register-title">
+          <div class="form-inner">
+            <div class="form-header">
+              <div class="brand-mark">
+                <img src="https://flowopz-attendance.netlify.app/assets/flowopz-logo-clean.png?v=4" alt="FlowOpz" class="logo logo--form" width="168" height="45" decoding="async">
+              </div>
+              <h1 id="register-title" class="form-title">Create account</h1>
+              <p class="form-subtitle">Join FlowOpz and scale your agency smarter</p>
+            </div>
+            <form class="auth-form" id="registerForm" novalidate>
+              <div class="field avatar-field">
+                <span class="avatar-field-label">Profile photo</span>
+                <div class="avatar-picker">
+                  <div class="avatar-preview" id="regAvatarPreview" aria-hidden="true">
+                    <span class="avatar-preview-initials" id="regAvatarInitials">FO</span>
+                  </div>
+                  <div class="avatar-picker-actions">
+                    <label class="btn btn--social avatar-upload-btn" for="reg-avatar">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <path d="M17 8l-5-5-5 5"></path><path d="M12 3v13"></path>
+                      </svg>
+                      <span id="regAvatarBtnLabel">Upload photo</span>
+                    </label>
+                    <button type="button" class="link-muted avatar-remove-btn" id="regAvatarRemove">Remove</button>
+                    <input type="file" id="reg-avatar" name="avatar" accept="image/*">
+                  </div>
+                </div>
+                <span class="field-hint">Optional  drag & zoom to frame it after choosing.</span>
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="reg-first">First name</label>
+                  <div class="input-wrap">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                      <circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
+                    </svg>
+                    <input type="text" id="reg-first" name="firstName" autocomplete="given-name" placeholder="Alex" required>
+                  </div>
+                  <span class="field-error" data-error-for="reg-first"></span>
+                </div>
+                <div class="field">
+                  <label for="reg-last">Last name</label>
+                  <div class="input-wrap">
+                    <input type="text" id="reg-last" name="lastName" autocomplete="family-name" placeholder="Morgan" required>
+                  </div>
+                  <span class="field-error" data-error-for="reg-last"></span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="reg-email">Work email</label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"></path>
+                    <path d="m3.5 7 8.5 6 8.5-6"></path>
+                  </svg>
+                  <input type="email" id="reg-email" name="email" autocomplete="email" placeholder="you@agency.com" required>
+                </div>
+                <span class="field-error" data-error-for="reg-email"></span>
+              </div>
+
+              <div class="field">
+                <label for="reg-password">Password</label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+                  </svg>
+                  <input type="password" id="reg-password" name="password" autocomplete="new-password" placeholder="Min. 8 characters" required minlength="8">
+                  <button type="button" class="toggle-password" data-target="reg-password" aria-label="Show password">
+                    <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.2 4.2M9.9 5.1A10.5 10.5 0 0 1 12 5c6.5 0 10 7 10 7a18.5 18.5 0 0 1-3.1 3.9M6.1 6.1A18.4 18.4 0 0 0 2 12s3.5 7 10 7c1.3 0 2.5-.2 3.6-.6"></path></svg>
+                  </button>
+                </div>
+                <div class="password-strength" id="passwordStrength" aria-live="polite">
+                  <div class="strength-bars">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="strength-label">Password strength</span>
+                </div>
+                <span class="field-error" data-error-for="reg-password"></span>
+              </div>
+
+              <label class="checkbox-row">
+                <input type="checkbox" name="terms" id="reg-terms" required>
+                <span class="checkmark"></span>
+                <span>I agree to the <a href="#" class="link-accent">Terms</a> &amp; <a href="#" class="link-accent">Privacy Policy</a></span>
+              </label>
+
+              <button type="submit" class="btn btn--primary">
+                <span>Create account</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </button>
+            </form>
+
+            <p class="switch-hint">
+              Already have an account?
+              <button type="button" class="link-accent" data-switch="login">Sign in</button>
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sliding overlay side -->
+      <aside class="overlay-side" id="overlaySide" aria-hidden="false">
+        <div class="overlay-panel overlay-panel--left">
+          <div class="overlay-content">
+            <div class="brand-mark brand-mark--on-dark">
+              <img src="https://flowopz-attendance.netlify.app/assets/flowopz-logo-white-clean.png?v=4" alt="" class="logo logo--overlay" width="170" height="46" decoding="async">
+            </div>
+            <h2 class="overlay-title">Welcome back!</h2>
+            <p class="overlay-text">Sign in to access your custom GoHighLevel workspace, automations, and agency tools.</p>
+            <ul class="overlay-perks">
+              <li><span class="perk-dot"></span>Certified GHL specialists</li>
+              <li><span class="perk-dot"></span>24/7 expert support</li>
+              <li><span class="perk-dot"></span>Scalable agency systems</li>
+            </ul>
+            <button type="button" class="btn btn--ghost" data-switch="login">Sign in</button>
+          </div>
+        </div>
+        <div class="overlay-panel overlay-panel--right">
+          <div class="overlay-content">
+            <div class="brand-mark brand-mark--on-dark">
+              <img src="https://flowopz-attendance.netlify.app/assets/flowopz-logo-white-clean.png?v=4" alt="" class="logo logo--overlay" width="170" height="46" decoding="async">
+            </div>
+            <h2 class="overlay-title">New to FlowOpz?</h2>
+            <p class="overlay-text">Create an account and transform your agency with streamlined, powerful GHL solutions.</p>
+            <ul class="overlay-perks">
+              <li><span class="perk-dot"></span>Custom platform builds</li>
+              <li><span class="perk-dot"></span>Workflow automation</li>
+              <li><span class="perk-dot"></span>Seamless integrations</li>
+            </ul>
+            <button type="button" class="btn btn--ghost" data-switch="register">Create account</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Mobile tab toggle -->
+    <div class="mobile-tabs" role="tablist" aria-label="Authentication">
+      <button type="button" class="mobile-tab is-active" role="tab" aria-selected="true" data-switch="login" id="tab-login">
+        Sign in
+      </button>
+      <button type="button" class="mobile-tab" role="tab" aria-selected="false" data-switch="register" id="tab-register">
+        Register
+      </button>
+      <span class="mobile-tab-indicator" id="tabIndicator"></span>
+    </div>
+
+    <p class="footer-note">© 2026 FlowOpz. Smarter marketing, bigger growth.</p>
+
+  </main>
+
+
+  <!-- Forgot password modal -->
+  <div class="modal-backdrop" id="forgotModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="forgot-title">
+      <button type="button" class="modal-close" id="forgotClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+      <div class="modal-header">
+        <div class="modal-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+        </div>
+        <h2 id="forgot-title" class="modal-title">Reset your password</h2>
+        <p class="modal-subtitle">Enter the email address you used to create your account. We19ll send a secure link to that inbox so you can set a new password.</p>
+      </div>
+      <form class="auth-form" id="forgotForm" novalidate>
+        <div class="field">
+          <label for="forgot-email">Email address</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"></path>
+              <path d="m3.5 7 8.5 6 8.5-6"></path>
+            </svg>
+            <input type="email" id="forgot-email" name="email" autocomplete="email" placeholder="you@agency.com" required>
+          </div>
+          <span class="field-error" data-error-for="forgot-email"></span>
+        </div>
+        <button type="submit" class="btn btn--primary">
+          <span>Send reset link</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
